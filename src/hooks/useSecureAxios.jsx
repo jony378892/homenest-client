@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import useAuthContext from "./useAuthContext";
 
 const instance = axios.create({
-  baseURL: import.meta.env.BASE_URL || "http://localhost:3000",
+  baseURL: import.meta.env.VITE_API_URL,
 });
 
 export default function useSecureAxios() {
