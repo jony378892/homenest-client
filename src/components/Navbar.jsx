@@ -78,7 +78,7 @@ export default function Navbar() {
   );
 
   return (
-    <div className="bg-base-100 border-b border-gray-100 shadow-sm">
+    <div className="bg-base-100 border-b border-base-300 shadow-sm">
       <div className="navbar mx-auto max-w-7xl py-3.5">
         <div className="navbar-start">
           <Logo />

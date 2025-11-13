@@ -29,10 +29,10 @@ export default function WhyChooseUs() {
 
   return (
     <section className="py-20 mx-auto max-w-7xl text-center">
-      <div className="text-lg font-semibold text-red-600 uppercase tracking-widest">
+      <div className="text-lg font-semibold text-red-600 uppercase">
         Why Choose Us
       </div>
-      <h1 className="text-3xl md:text-4xl font-bold text-gray-800 mt-2">
+      <h1 className="text-3xl md:text-4xl font-bold text-base-400 mt-2">
         Your Trusted Real Estate Partner
       </h1>
 

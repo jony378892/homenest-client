@@ -5,6 +5,7 @@ import { CiLocationOn } from "react-icons/ci";
 import { FaRegEdit, FaTrashAlt } from "react-icons/fa";
 import toast from "react-hot-toast";
 import useSecureAxios from "../hooks/useSecureAxios";
+import Swal from "sweetalert2";
 
 export default function MyProperties() {
   const [properties, setProperties] = useState([]);
@@ -22,15 +23,38 @@ export default function MyProperties() {
   }, [instance, user]);
 
   const handleDelete = (id) => {
-    instance
-      .delete(`/delete-property/${id}`)
-      .then(() => {
-        setProperties((prev) => prev.filter((p) => p._id !== id));
-        toast.success("Property deleted successfully", {
-          style: { marginTop: "20px" },
-        });
-      })
-      .catch((err) => console.log(err.message));
+    Swal.fire({
+      title: "Are you sure?",
+      text: "This property will be permanently deleted!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#dc2626", // red (Tailwind's red-600)
+      cancelButtonColor: "#6b7280", // gray-500
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        instance
+          .delete(`/delete-property/${id}`)
+          .then(() => {
+            setProperties((prev) => prev.filter((p) => p._id !== id));
+            Swal.fire({
+              title: "Deleted!",
+              text: "Property deleted successfully.",
+              icon: "success",
+              confirmButtonColor: "#dc2626",
+            });
+          })
+          .catch((err) => {
+            console.log(err.message);
+            Swal.fire({
+              title: "Error!",
+              text: "Something went wrong while deleting.",
+              icon: "error",
+              confirmButtonColor: "#dc2626",
+            });
+          });
+      }
+    });
   };
 
   const handleModal = (property) => {
@@ -80,11 +104,10 @@ export default function MyProperties() {
       <div className="text-lg font-semibold text-red-600 uppercase text-center">
         My Dashboard
       </div>
-      <h1 className="text-3xl font-semibold text-gray-800 text-center">
+      <h1 className="text-3xl font-semibold text-base-800 text-center">
         My Properties
       </h1>
 
-      {/* ----------- MODAL ----------- */}
       <dialog ref={modalRef} className="modal modal-bottom sm:modal-middle">
         <div className="modal-box">
           <h3 className="font-bold text-lg mb-4">Update Property</h3>
@@ -193,7 +216,6 @@ export default function MyProperties() {
         </div>
       </dialog>
 
-      {/* ----------- PROPERTY LIST ----------- */}
       {properties.length === 0 ? (
         <p className="text-center text-gray-500 mt-10">
           You haven’t added any properties yet.
@@ -233,7 +255,7 @@ export default function MyProperties() {
                 <div className="flex justify-between items-center border-t border-gray-200 pt-4 mt-3">
                   <Link
                     to={`/property-details/${property._id}`}
-                    className="text-sm font-medium text-blue-600 hover:underline"
+                    className="btn btn-sm bg-red-500 text-white border-none hover:bg-red-600 rounded-md"
                   >
                     View Details
                   </Link>
@@ -246,7 +268,7 @@ export default function MyProperties() {
                     </button>
                     <button
                       onClick={() => handleDelete(property._id)}
-                      className="btn btn-error btn-sm"
+                      className="btn btn-error btn-sm flex items-center gap-1"
                     >
                       <FaTrashAlt /> Delete
                     </button>

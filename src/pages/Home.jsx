@@ -1,7 +1,7 @@
 import Cities from "../components/Cities";
 import Featured from "../components/Featured";
 import Hero from "../components/Hero";
-import PropertyTypes from "../components/PropertyTypes";
+import Newsletter from "../components/Newsletter";
 import WhyChooseUs from "../components/WhyChooseUs";
 
 export default function Home() {
@@ -10,8 +10,8 @@ export default function Home() {
       <Hero />
       <Cities />
       <Featured />
-      <PropertyTypes />
       <WhyChooseUs />
+      <Newsletter />
     </main>
   );
 }
