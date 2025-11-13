@@ -59,7 +59,7 @@ export default function PropertyDetails() {
       .get(`/property/${id}`)
       .then((data) => {
         setProperty(data.data);
-        console.log(data.data);
+        // console.log(data.data);
         setLoading(false);
       })
       .catch((error) => {

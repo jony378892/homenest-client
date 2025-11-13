@@ -37,7 +37,7 @@ export default function Signup() {
       .then(async (result) => {
         const user = result.user;
         console.log("Signup Successful");
-        console.log(user);
+        // console.log(user);
 
         updateUser({ displayName: name, photoURL: photo })
           .then(() => {

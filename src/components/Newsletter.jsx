@@ -6,7 +6,7 @@ export default function Newsletter() {
 
   const handleSubscribe = (e) => {
     e.preventDefault();
-    console.log("Subscribed with:", email);
+    // console.log("Subscribed with:", email);
     setEmail("");
   };
 

@@ -17,7 +17,7 @@ export default function MyRatings() {
     instance
       .get(`/ratings/${user.email}`)
       .then((data) => {
-        console.log(data.data);
+        // console.log(data.data);
         setRating(data.data);
         setLoading(false);
       })
