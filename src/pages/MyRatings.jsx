@@ -36,9 +36,13 @@ export default function MyRatings() {
         {ratings.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {ratings.map((property) => (
-              <div className="card bg-base-100 w-96 shadow-sm">
+              <div className="card bg-base-100 shadow-md border border-gray-300 rounded-2xl">
                 <figure>
-                  <img src={property.image} alt="Shoes" />
+                  <img
+                    src={property.image}
+                    alt="Shoes"
+                    className="hover:scale-110 transition-all duration-500"
+                  />
                 </figure>
                 <div className="card-body">
                   <h3 className="card-title text-red-600 border-b border-gray-300 pb-2">
