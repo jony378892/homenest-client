@@ -31,7 +31,7 @@ export default function Navbar() {
         <NavLink to="/all-properties">All Properties</NavLink>
       </li>
       <li>
-        <NavLink to="/add-properties">Add Properties</NavLink>
+        <NavLink to="/add-property">Add Properties</NavLink>
       </li>
       <li>
         <NavLink to="/my-properties">My Properties</NavLink>
@@ -68,7 +68,11 @@ export default function Navbar() {
           {user ? (
             <div className="dropdown dropdown-end">
               <div tabIndex={-1} role="button" className=" rounded-xl">
-                <img src={user.photoURL} alt="" className="w-9 rounded-full" />
+                <img
+                  src={user.photoURL}
+                  alt=""
+                  className="w-9 rounded-full cursor-pointer"
+                />
               </div>
               <ul
                 tabIndex="-1"

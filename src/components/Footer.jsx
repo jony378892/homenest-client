@@ -5,8 +5,8 @@ import Logo from "./Logo";
 
 export default function Footer() {
   return (
-    <div className="bg-base-200 border-gray-300 border-t">
-      <footer className="footer sm:footer-horizontal bg-base-200 text-base-content p-10 max-w-7xl mx-auto">
+    <div className="bg-[#161e2d] text-gray-100 border-gray-300 border-t">
+      <footer className="footer sm:footer-horizontal text-gray-100 p-10 max-w-7xl mx-auto">
         <aside className="-space-y-1">
           <Logo />
           <p>HomeNest Properties LTD.</p>

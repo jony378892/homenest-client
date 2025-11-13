@@ -7,8 +7,8 @@ export default function Logo() {
       to="/"
       className="text-2xl font-semibold flex items-center font-poppins"
     >
-      <HiOutlineHomeModern size={30} className="mr-1 stroke-2 text-sky-600" />
-      <span className="text-sky-600">Home</span>
+      <HiOutlineHomeModern size={30} className="mr-1 stroke-2 text-red-600" />
+      <span>Home</span>
       Nest
     </Link>
   );

@@ -9,9 +9,10 @@ import PrivateRoute from "./PrivateRoute";
 import SignIn from "../pages/auth/SignIn";
 import NotFound from "../components/NotFound";
 import AllProperties from "../pages/AllProperties";
-import AddProperties from "../pages/AddProperties";
 import MyProperties from "../pages/MyProperties";
 import MyRatings from "../pages/MyRatings";
+import PropertyDetails from "../pages/PropertyDetails";
+import AddProperty from "../pages/AddProperty";
 
 const router = createBrowserRouter([
   {
@@ -53,14 +54,27 @@ const router = createBrowserRouter([
         ],
       },
       {
+        path: "property-details",
+        children: [
+          {
+            path: `:id`,
+            element: (
+              <PrivateRoute>
+                <PropertyDetails />
+              </PrivateRoute>
+            ),
+          },
+        ],
+      },
+      {
         path: "all-properties",
         Component: AllProperties,
       },
       {
-        path: "add-properties",
+        path: "add-property",
         element: (
           <PrivateRoute>
-            <AddProperties />
+            <AddProperty />
           </PrivateRoute>
         ),
       },
