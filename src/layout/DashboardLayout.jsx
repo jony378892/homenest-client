@@ -1,6 +1,7 @@
 import React from "react";
 import useAuthContext from "../hooks/useAuthContext";
-import { Link } from "react-router";
+import { Link, Outlet } from "react-router";
+import { FaUser } from "react-icons/fa6";
 
 export default function DashboardLayout() {
   const { user } = useAuthContext();
@@ -35,7 +36,9 @@ export default function DashboardLayout() {
           <div className="px-4">{user?.displayName}'s Dashboard</div>
         </nav>
         {/* Page content here */}
-        <div className="p-4">Page Content</div>
+        <div className="p-4">
+          <Outlet />
+        </div>
       </div>
 
       <div className="drawer-side is-drawer-close:overflow-visible">
@@ -75,28 +78,16 @@ export default function DashboardLayout() {
 
             {/* List item */}
             <li>
-              <button
-                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                data-tip="Settings"
-              >
-                {/* Settings icon */}
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  strokeLinejoin="round"
-                  strokeLinecap="round"
-                  strokeWidth="2"
-                  fill="none"
-                  stroke="currentColor"
-                  className="my-1.5 inline-block size-4"
+              <Link to="/dashboard/profile">
+                <button
+                  className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                  data-tip="Profile"
                 >
-                  <path d="M20 7h-9"></path>
-                  <path d="M14 17H5"></path>
-                  <circle cx="17" cy="17" r="3"></circle>
-                  <circle cx="7" cy="7" r="3"></circle>
-                </svg>
-                <span className="is-drawer-close:hidden">Settings</span>
-              </button>
+                  {/* Settings icon */}
+                  <FaUser />
+                  <span className="is-drawer-close:hidden">Profile</span>
+                </button>
+              </Link>
             </li>
           </ul>
         </div>

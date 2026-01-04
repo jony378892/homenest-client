@@ -5,5 +5,5 @@ export default function Profile() {
   const { user } = useAuthContext();
   console.log(user);
 
-  return <div></div>;
+  return <div>{user.displayName}</div>;
 }

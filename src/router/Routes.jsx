@@ -18,6 +18,7 @@ import Terms from "../pages/Terms";
 import About from "../pages/About";
 import Dashboard from "../pages/dashboard/Dashboard";
 import DashboardLayout from "../layout/DashboardLayout";
+import Profile from "../pages/dashboard/Profile";
 
 const router = createBrowserRouter([
   {
@@ -113,6 +114,10 @@ const router = createBrowserRouter([
           {
             index: true,
             Component: Dashboard,
+          },
+          {
+            path: "profile",
+            Component: Profile,
           },
         ],
       },
