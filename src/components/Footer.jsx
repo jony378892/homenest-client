@@ -17,8 +17,15 @@ export default function Footer() {
         </aside>
         <nav>
           <h6 className="footer-title">Legal</h6>
-          <Link className="link link-hover">Contacts</Link>
-          <Link className="link link-hover">Terms and Conditions</Link>
+          <Link to="/contact" className="link link-hover">
+            Contact
+          </Link>
+          <Link to="/privacy" className="link link-hover">
+            Privacy Policy
+          </Link>
+          <Link to="/terms" className="link link-hover">
+            Terms and Conditions
+          </Link>
         </nav>
         <nav>
           <h6 className="footer-title">Social</h6>

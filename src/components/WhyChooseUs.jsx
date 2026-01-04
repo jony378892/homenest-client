@@ -28,7 +28,7 @@ export default function WhyChooseUs() {
   ];
 
   return (
-    <section className="py-20 mx-auto max-w-7xl text-center">
+    <section className="py-20 mx-auto max-w-7xl text-center" data-aos="fade-up">
       <div className="text-lg font-semibold text-red-600 uppercase">
         Why Choose Us
       </div>

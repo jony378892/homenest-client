@@ -5,28 +5,22 @@ import useAuthContext from "../hooks/useAuthContext";
 import toast from "react-hot-toast";
 import { Rating } from "@smastrom/react-rating";
 import { formatDate } from "../utils/utils";
+import useSecureAxios from "../hooks/useSecureAxios";
+import { useQuery } from "@tanstack/react-query";
 
 export default function MyRatings() {
-  const [loading, setLoading] = useState(null);
-  const [ratings, setRating] = useState([]);
-  const { user } = useAuthContext();
-  const instance = useAxios();
+  const { user, loading } = useAuthContext();
+  const axiosSecure = useSecureAxios();
 
-  useEffect(() => {
-    setLoading(true);
-    instance
-      .get(`/ratings/${user.email}`)
-      .then((data) => {
-        // console.log(data.data);
-        setRating(data.data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        toast.error(error.message);
-      });
-  }, [instance, user]);
+  const { data: ratings = [], isLoading } = useQuery({
+    queryKey: ["my-ratings", user?.email],
+    queryFn: async () => {
+      const res = await axiosSecure.get(`/ratings/${user.email}`);
+      return res.data;
+    },
+  });
 
-  if (loading) {
+  if (isLoading || loading) {
     return <Loading />;
   }
 
@@ -49,14 +43,14 @@ export default function MyRatings() {
                     {property.propertyName}
                   </h3>
                   <p className="text-lg font-semibold">{property.userName}</p>
-                  <p className="font-semibold flex gap-2">
+                  <div className="font-semibold flex gap-2">
                     Rating:{" "}
                     <Rating
                       style={{ maxWidth: 100 }}
                       value={property.rating}
                       readOnly
                     />
-                  </p>
+                  </div>
                   <p className="font-semibold">Review: {property.feedback}</p>
                   <p className="font-semibold">
                     {formatDate(property.createdAt)}

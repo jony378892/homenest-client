@@ -15,10 +15,16 @@
   font-family: "Poppins", sans-serif;
 }
 
-.navbar-center li a.active,
+.custom_navlinks li a.active,
 #navbar li a.active {
+  font-weight: 500;
   text-decoration: underline;
   text-decoration-color: red;
   text-decoration-thickness: 2px;
   text-underline-offset: 8px;
+}
+
+input,
+textarea {
+  @apply focus:outline-none focus:right-0;
 }

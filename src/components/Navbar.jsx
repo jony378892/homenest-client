@@ -1,68 +1,45 @@
 import { Link, NavLink } from "react-router";
-import { HiOutlineMenuAlt2 } from "react-icons/hi";
-import { FaUser } from "react-icons/fa6";
+import { IoIosSunny } from "react-icons/io";
+import { FaMoon } from "react-icons/fa6";
+import { useEffect, useState } from "react";
 
 import useAuthContext from "../hooks/useAuthContext";
 import Logo from "./Logo";
-import { useEffect, useState } from "react";
 
 export default function Navbar() {
   const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
   const { user, setUser, logoutUser } = useAuthContext();
+
   const hoverClass =
     "relative after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-[2px] after:bg-red-600 after:transition-all after:duration-300 hover:after:w-full";
 
-  // console.log(user);
-
   const handleLogout = () => {
     logoutUser()
-      .then(() => {
-        console.log("Signout Successful");
-
-        setUser(null);
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
+      .then(() => setUser(null))
+      .catch((err) => console.log(err.message));
   };
 
-  const handleTheme = (checked) => {
-    setTheme(checked ? "dark" : "light");
-  };
+  const handleTheme = (checked) => setTheme(checked ? "dark" : "light");
 
   useEffect(() => {
     const html = document.querySelector("html");
     html.setAttribute("data-theme", theme);
-    localStorage.setItem("data-theme", theme);
+    localStorage.setItem("theme", theme);
   }, [theme]);
 
   const navLinks = (
     <>
       <li>
-        <NavLink to="/" className={hoverClass}>
-          Home
-        </NavLink>
+        <NavLink to="/">Home</NavLink>
       </li>
       <li>
-        <NavLink to="/all-properties" className={hoverClass}>
-          All Properties
-        </NavLink>
+        <NavLink to="/properties">Properties</NavLink>
       </li>
-      <li>
-        <NavLink to="/add-property" className={hoverClass}>
-          Add Properties
-        </NavLink>
-      </li>
-      <li>
-        <NavLink to="/my-properties" className={hoverClass}>
-          My Properties
-        </NavLink>
-      </li>
-      <li>
-        <NavLink to="/my-ratings" className={hoverClass}>
-          My Ratings
-        </NavLink>
-      </li>
+      {user && (
+        <li>
+          <NavLink to="/add-property">Add Property</NavLink>
+        </li>
+      )}
     </>
   );
 
@@ -78,67 +55,80 @@ export default function Navbar() {
   );
 
   return (
-    <div className="bg-base-100 border-b border-base-300 shadow-sm">
-      <div className="navbar mx-auto max-w-7xl py-3.5">
-        <div className="navbar-start">
+    <div className="bg-base-100 border-b border-base-300 shadow-sm sticky top-0 z-50">
+      <div className="flex items-center justify-between max-w-7xl mx-auto py-3.5 px-2">
+        {/* Mobile menu button */}
+        <div className="dropdown sm:hidden">
+          <label tabIndex={0} className="btn btn-ghost btn-circle">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="size-7"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M4 6h16M4 12h16M4 18h16"
+              />
+            </svg>
+          </label>
+          <ul
+            tabIndex={0}
+            className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52 gap-2 custom_navlinks"
+          >
+            {navLinks}
+          </ul>
+        </div>
+        <div className="">
           <Logo />
         </div>
-        <div className="navbar-center hidden lg:inline-block">
-          <ul className="flex gap-4 items-center ">{navLinks}</ul>
+
+        {/* Navbar center: Nav links (desktop only) */}
+        <div className="navbar-center hidden sm:flex">
+          <ul className="flex  px-1 gap-4 custom_navlinks">{navLinks}</ul>
         </div>
-        <div className="navbar-end flex items-center gap-2">
-          <input
-            type="checkbox"
-            onChange={(e) => handleTheme(e.target.checked)}
-            defaultChecked={localStorage.getItem("theme")}
-            className="toggle"
-          />
-          {user ? (
+
+        {/* Navbar end: Theme toggle + Auth/User */}
+        <div className="flex items-center gap-2">
+          {/* Theme control */}
+          <label className="swap swap-rotate">
+            <input
+              type="checkbox"
+              onChange={(e) => handleTheme(e.target.checked)}
+              defaultChecked={theme === "dark"}
+            />
+            <IoIosSunny className="swap-on size-5 fill-current" />
+            <FaMoon className="swap-off size-5 fill-current" />
+          </label>
+
+          {/* Auth / User */}
+          {!user ? (
+            <div className="hidden sm:flex gap-2">{authButtons}</div>
+          ) : (
             <div className="dropdown dropdown-end z-10">
-              <div tabIndex={-1} role="button" className="rounded-xl">
+              <div tabIndex={0} className="rounded-xl cursor-pointer">
                 <img
                   src={user.photoURL}
-                  alt=""
-                  className="w-9 rounded-full cursor-pointer"
+                  alt="User"
+                  className="w-7 sm:w-8 rounded-full"
                 />
               </div>
-              <ul
-                tabIndex="-1"
-                className="menu menu-md dropdown-content bg-base-100 rounded-box mt-3 w-52 p-2 shadow space-y-2 z-10"
-                id="navbar"
-              >
-                <p className="font-semibold">Name: {user.displayName}</p>
-                <p className="font-semibold">Email: {user.email}</p>
-                <button
-                  className="btn btn-outline btn-error btn-sm"
-                  onClick={handleLogout}
-                >
+              <ul className="flex flex-col gap-3 text-sm dropdown-content bg-base-100 rounded-box mt-3 w-52 px-2 py-3 shadow border border-gray-200 z-10 custom_navlinks">
+                <li>
+                  <NavLink to="/my-properties">My Properties</NavLink>
+                </li>
+                <li>
+                  <NavLink to="/my-ratings">My Ratings</NavLink>
+                </li>
+                <button className="btn btn-error btn-sm" onClick={handleLogout}>
                   Logout
                 </button>
               </ul>
             </div>
-          ) : (
-            <div className="lg:flex gap-2 hidden">{authButtons}</div>
           )}
-          <div className="dropdown dropdown-end lg:hidden z-10">
-            <div
-              tabIndex={0}
-              role="button"
-              className="btn btn-ghost btn-circle"
-            >
-              <HiOutlineMenuAlt2 size={25} />
-            </div>
-            <ul
-              tabIndex="0"
-              className="menu menu-md dropdown-content bg-gray-100 rounded-xl z-1 mt-3 w-52 p-2 shadow [&_a]:rounded-xl z-10"
-              id="navbar"
-            >
-              {navLinks}
-              {!user && (
-                <div className="flex flex-col gap-2 mt-2">{authButtons}</div>
-              )}
-            </ul>
-          </div>
         </div>
       </div>
     </div>

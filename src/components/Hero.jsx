@@ -11,30 +11,27 @@ const slides = [
   {
     title: "Find Your Dream Home, Effortlessly.",
     description:
-      "Browse a wide selection of apartments, villas, and houses. Our platform connects you with trusted sellers and landlords, making your property search smooth and hassle-free.",
+      "Explore apartments, villas, and houses from trusted sellers. Find the right home quickly and without hassle.",
     image: prop1,
-    imageWidthClass: "lg:w-1/2",
   },
   {
     title: "Sell or Rent Your Property Easily.",
     description:
-      "List your property in minutes and reach thousands of potential buyers or tenants. Add images, descriptions, and prices to get noticed quickly and securely.",
+      "List your property in minutes and reach verified buyers or tenants with ease.",
     image: prop2,
-    imageWidthClass: "lg:w-5/12",
   },
   {
     title: "Connect with Trusted Agents & Buyers.",
     description:
-      "Our platform ensures secure transactions and reliable contacts. Get real-time updates, schedule visits, and finalize deals with confidence. Your ideal property experience starts here.",
+      "Communicate securely, schedule visits, and close deals with confidence.",
     image: prop3,
-    imageWidthClass: "lg:w-4/12",
   },
 ];
 
 export default function HeroSection() {
   return (
-    <section className="py-20 w-full bg-base-100">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+    <section className="py-3 w-full bg-base-100" data-aos="fade-up">
+      <div className="max-w-7xl mx-auto w-full">
         <Swiper
           modules={[Autoplay, Pagination]}
           autoplay={{ delay: 3500, disableOnInteraction: false }}
@@ -45,26 +42,25 @@ export default function HeroSection() {
         >
           {slides.map((slide, index) => (
             <SwiperSlide key={index}>
-              <div className="flex flex-col-reverse lg:flex-row items-center justify-between gap-12 w-full">
-                {/* Text Section */}
-                <div className="lg:w-1/2 text-center lg:text-left">
-                  <h2 className="text-3xl lg:text-5xl font-bold text-base-400 mb-4 leading-tight">
+              <div
+                className="relative flex flex-col text-white items-center justify-center text-center h-[70vh] bg-top bg-cover w-full"
+                style={{ backgroundImage: `url(${slide.image})` }}
+              >
+                <div className="absolute inset-0 bg-black/60"></div>
+
+                <div className="relative flex flex-col gap-3 items-center max-w-5xl px-4">
+                  <h2 className="text-3xl lg:text-5xl font-bold text-base-400 leading-tight">
                     {slide.title}
                   </h2>
-                  <p className="text-base-400/70 dark:text-gray-300 text-base lg:text-lg leading-relaxed mb-6">
+
+                  <p className="text-base-400/70 dark:text-gray-300 text-base lg:text-lg leading-relaxed">
                     {slide.description}
                   </p>
-                  <button className="bg-red-500 hover:bg-red-600 text-white font-semibold px-6 py-2 rounded-md transition-colors">
+
+                  <button className="bg-red-500 hover:bg-red-600 text-white font-semibold px-6 py-2 rounded-md transition-colors w-fit">
                     Explore Now
                   </button>
                 </div>
-
-                {/* Image Section */}
-                <img
-                  src={slide.image}
-                  alt={slide.title}
-                  className={`w-full ${slide.imageWidthClass} max-w-sm lg:max-w-md mx-auto rounded-xl shadow-xl object-cover h-86`}
-                />
               </div>
             </SwiperSlide>
           ))}

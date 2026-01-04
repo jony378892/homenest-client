@@ -17,12 +17,8 @@ export default function Featured() {
     });
   }, [instance]);
 
-  if (loading) {
-    return <Loading />;
-  }
-
   return (
-    <section className="py-16 bg-base-100">
+    <section className="py-16 bg-base-100" data-aos="fade-up">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <p className="text-lg font-semibold text-red-600 uppercase">
@@ -33,11 +29,13 @@ export default function Featured() {
           </h2>
         </div>
 
+        {loading && <Loading />}
+
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {featuredProperties.map((property) => (
             <div
               key={property._id}
-              className="card bg-white dark:bg-neutral shadow-md hover:shadow-lg transition-all rounded-xl overflow-hidden"
+              className="card bg-white shadow-md hover:shadow-lg transition-all rounded-xl overflow-hidden"
             >
               <figure className="relative group">
                 <img
@@ -82,7 +80,7 @@ export default function Featured() {
 
         <div className="flex justify-center mt-16">
           <Link
-            to="/all-properties"
+            to="/properties"
             className="bg-red-500 hover:bg-red-600 text-white font-semibold px-8 py-2 rounded-md"
           >
             View All Properties

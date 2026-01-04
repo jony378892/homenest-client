@@ -1,28 +1,22 @@
-import { useEffect, useState } from "react";
 import { Link } from "react-router";
-import useAxios from "../hooks/useAxios";
 import { FaRightLong } from "react-icons/fa6";
+import { useQuery } from "@tanstack/react-query";
+import useSecureAxios from "../hooks/useSecureAxios";
 import Loading from "./Loading";
 
 export default function Cities() {
-  const [loading, setLoading] = useState(null);
-  const [cities, setCities] = useState([]);
-  const instance = useAxios();
+  const axiosSecure = useSecureAxios();
 
-  useEffect(() => {
-    setLoading(true);
-    instance.get("/cities").then((data) => {
-      setCities(data.data);
-      setLoading(false);
-    });
-  }, [instance]);
-
-  if (loading) {
-    return <Loading />;
-  }
+  const { isLoading, data: cities = [] } = useQuery({
+    queryKey: ["cities"],
+    queryFn: async () => {
+      const res = await axiosSecure.get("/cities");
+      return res.data;
+    },
+  });
 
   return (
-    <section className="mx-auto max-w-7xl my-16 px-3 w-full">
+    <section className="mx-auto max-w-7xl my-16 px-3 w-full" data-aos="fade-up">
       <div className="text-center mb-12">
         <h3 className="text-lg font-semibold text-red-600 uppercase">
           Explore Cities
@@ -32,11 +26,13 @@ export default function Cities() {
         </h1>
       </div>
 
+      {isLoading && <Loading />}
+
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mt-16 w-full">
         {cities.map((city) => (
           <div
             key={city._id}
-            className="flex gap-8 items-center h-36 shadow-md rounded-xl overflow-hidden group bg-base-100 hover:bg-red-600 hover:text-white border border-base-300 transition-all duration-300"
+            className="flex gap-8 items-center h-36 shadow-2xl  rounded-xl overflow-hidden group bg-base-100 hover:bg-red-600 hover:text-white transition-all duration-300 border border-base-300"
           >
             <div className="overflow-hidden w-2/5 h-full">
               <img

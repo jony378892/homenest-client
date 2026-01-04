@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { Link, useNavigate } from "react-router";
 import useAuthContext from "../hooks/useAuthContext";
 import { CiLocationOn } from "react-icons/ci";
@@ -6,21 +6,29 @@ import { FaRegEdit, FaTrashAlt } from "react-icons/fa";
 import toast from "react-hot-toast";
 import useSecureAxios from "../hooks/useSecureAxios";
 import Swal from "sweetalert2";
+import { useQuery } from "@tanstack/react-query";
+import Loading from "../components/Loading";
 
 export default function MyProperties() {
-  const [properties, setProperties] = useState([]);
   const [selectedProperty, setSelectedProperty] = useState(null);
   const modalRef = useRef(null);
   const { user } = useAuthContext();
-  const instance = useSecureAxios();
+  const axiosSecure = useSecureAxios();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!user?.email) return;
-    instance.get(`/properties?email=${user.email}`).then((data) => {
-      setProperties(data.data);
-    });
-  }, [instance, user]);
+  const {
+    data: properties = [],
+    isLoading,
+    refetch,
+  } = useQuery({
+    queryKey: ["my-properties", user?.email],
+    queryFn: async () => {
+      const properties = await axiosSecure.get(
+        `/properties?email=${user.email}`
+      );
+      return properties.data;
+    },
+  });
 
   const handleDelete = (id) => {
     Swal.fire({
@@ -28,21 +36,15 @@ export default function MyProperties() {
       text: "This property will be permanently deleted!",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: "#dc2626", // red (Tailwind's red-600)
-      cancelButtonColor: "#6b7280", // gray-500
+      confirmButtonColor: "#dc2626",
+      cancelButtonColor: "#6b7280",
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        instance
+        axiosSecure
           .delete(`/delete-property/${id}`)
           .then(() => {
-            setProperties((prev) => prev.filter((p) => p._id !== id));
-            Swal.fire({
-              title: "Deleted!",
-              text: "Property deleted successfully.",
-              icon: "success",
-              confirmButtonColor: "#dc2626",
-            });
+            refetch();
           })
           .catch((err) => {
             console.log(err.message);
@@ -77,16 +79,12 @@ export default function MyProperties() {
     };
 
     try {
-      await instance.patch(
+      await axiosSecure.patch(
         `/update-property/${selectedProperty._id}`,
         updatedData
       );
 
-      setProperties((prev) =>
-        prev.map((p) =>
-          p._id === selectedProperty._id ? { ...p, ...updatedData } : p
-        )
-      );
+      refetch();
 
       toast.success("Property updated successfully!");
 
@@ -99,11 +97,10 @@ export default function MyProperties() {
     }
   };
 
+  if (isLoading) return <Loading />;
+
   return (
     <section className="py-10 mx-auto max-w-7xl px-3 md:px-0">
-      <div className="text-lg font-semibold text-red-600 uppercase text-center">
-        My Dashboard
-      </div>
       <h1 className="text-3xl font-semibold text-base-800 text-center">
         My Properties
       </h1>

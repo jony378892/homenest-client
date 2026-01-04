@@ -12,6 +12,9 @@ import MyProperties from "../pages/MyProperties";
 import MyRatings from "../pages/MyRatings";
 import PropertyDetails from "../pages/PropertyDetails";
 import AddProperty from "../pages/AddProperty";
+import Contact from "../pages/contact/Contact";
+import Privacy from "../pages/Privacy";
+import Terms from "../pages/Terms";
 
 const router = createBrowserRouter([
   {
@@ -48,16 +51,12 @@ const router = createBrowserRouter([
         children: [
           {
             path: `:id`,
-            element: (
-              <PrivateRoute>
-                <PropertyDetails />
-              </PrivateRoute>
-            ),
+            element: <PropertyDetails />,
           },
         ],
       },
       {
-        path: "all-properties",
+        path: "properties",
         Component: AllProperties,
       },
       {
@@ -83,6 +82,18 @@ const router = createBrowserRouter([
             <MyRatings />
           </PrivateRoute>
         ),
+      },
+      {
+        path: "contact",
+        Component: Contact,
+      },
+      {
+        path: "privacy",
+        Component: Privacy,
+      },
+      {
+        path: "terms",
+        Component: Terms,
       },
     ],
   },

@@ -11,7 +11,10 @@ export default function Newsletter() {
   };
 
   return (
-    <section className="bg-base-200 dark:bg-base-300 py-16 w-full">
+    <section
+      className="bg-base-200 dark:bg-base-300 py-16 w-full"
+      data-aos="fade-up"
+    >
       <div className="max-w-3xl mx-auto px-4 text-center">
         <h2 className="text-3xl font-bold text-base-400 mb-3">
           Stay Updated with <span className="text-red-600">HomeNest</span>
