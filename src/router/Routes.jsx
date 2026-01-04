@@ -15,6 +15,9 @@ import AddProperty from "../pages/AddProperty";
 import Contact from "../pages/contact/Contact";
 import Privacy from "../pages/Privacy";
 import Terms from "../pages/Terms";
+import About from "../pages/About";
+import Dashboard from "../pages/dashboard/Dashboard";
+import DashboardLayout from "../layout/DashboardLayout";
 
 const router = createBrowserRouter([
   {
@@ -94,6 +97,24 @@ const router = createBrowserRouter([
       {
         path: "terms",
         Component: Terms,
+      },
+      {
+        path: "about",
+        Component: About,
+      },
+      {
+        path: "dashboard",
+        element: (
+          <PrivateRoute>
+            <DashboardLayout />
+          </PrivateRoute>
+        ),
+        children: [
+          {
+            index: true,
+            Component: Dashboard,
+          },
+        ],
       },
     ],
   },

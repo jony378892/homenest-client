@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router";
 import { MdErrorOutline, MdOutlineMail } from "react-icons/md";
 import { FcGoogle } from "react-icons/fc";
 import { FaEye, FaEyeSlash, FaKey, FaLink, FaRegUser } from "react-icons/fa6";
+import { useForm } from "react-hook-form";
 
 import useAuthContext from "../../hooks/useAuthContext";
 
@@ -19,47 +20,37 @@ export default function Signup() {
   } = useAuthContext();
   const navigate = useNavigate();
 
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm({
+    defaultValues: { name: "", photo: "", email: "", password: "" },
+  });
+
   const handleShowPassword = () => {
     setShowPassword(!showPassword);
   };
 
-  const handleSignUp = (e) => {
-    e.preventDefault();
-
-    const name = e.target.name.value;
-    const photo = e.target.photo.value;
-    const email = e.target.email.value;
-    const password = e.target.password.value;
-
-    console.log({ name, email, password });
-
-    signUpUser(email, password)
-      .then(async (result) => {
-        const user = result.user;
-        console.log("Signup Successful");
-        // console.log(user);
-
-        updateUser({ displayName: name, photoURL: photo })
-          .then(() => {
-            setUser({ ...user, displayName: name, photoURL: photo });
-            navigate("/");
-          })
-          .catch((error) => {
-            setUser(user);
-            console.log(error.message);
-          });
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
+  const handleSignUp = async (data) => {
+    setCustomError("");
+    try {
+      const res = await signUpUser(data.email, data.password);
+      // update display name and photo
+      await updateUser({ displayName: data.name, photoURL: data.photo });
+      setUser({ ...res.user, displayName: data.name, photoURL: data.photo });
+      reset();
+      navigate("/");
+    } catch (error) {
+      console.log(error.message);
+      setCustomError(error.message || "Signup failed");
+    }
   };
 
   const handleGoogleSignup = () => {
     signInWithGoogle()
-      .then((result) => {
-        const currentUser = result.user;
-        console.log(currentUser);
-
+      .then(() => {
         // navigate to home after successful login
         navigate("/");
       })
@@ -78,7 +69,10 @@ export default function Signup() {
     <div className="py-14 flex flex-col gap-10 items-center">
       <h2 className="text-4xl font-bold">Signup here</h2>
       <div className="p-5 py-10 border border-gray-300 rounded-2xl">
-        <form className=" flex flex-col gap-2" onSubmit={handleSignUp}>
+        <form
+          className=" flex flex-col gap-2"
+          onSubmit={handleSubmit(handleSignUp)}
+        >
           {customError && (
             <p className="text-red-600 flex gap-2 items-center">
               <MdErrorOutline size={18} />
@@ -91,11 +85,22 @@ export default function Signup() {
             <label className=" font-medium">Name</label>
             <div className="input validator outline-none mt-1 w-full">
               <FaRegUser className="text-gray-500" size={18} />
-              <input type="text" placeholder="Your name" name="name" required />
+              <input
+                type="text"
+                placeholder="Your name"
+                {...register("name", {
+                  required: "Name is required",
+                  minLength: {
+                    value: 2,
+                    message: "Name must be at least 2 characters",
+                  },
+                })}
+                aria-invalid={errors.name ? "true" : "false"}
+              />
             </div>
-            <div className="validator-hint hidden">
-              Enter valid email address
-            </div>
+            {errors.name && (
+              <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>
+            )}
           </div>
 
           {/* photo */}
@@ -106,11 +111,21 @@ export default function Signup() {
               <input
                 type="text"
                 placeholder="Photo URL"
-                name="photo"
-                required
+                {...register("photo", {
+                  required: "Photo URL is required",
+                  pattern: {
+                    value: /^(https?:\/\/.+)$/,
+                    message: "Enter a valid URL",
+                  },
+                })}
+                aria-invalid={errors.photo ? "true" : "false"}
               />
             </div>
-            <div className="validator-hint hidden">Enter valid link</div>
+            {errors.photo && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.photo.message}
+              </p>
+            )}
           </div>
           {/* email */}
           <div>
@@ -120,14 +135,22 @@ export default function Signup() {
               <input
                 type="email"
                 placeholder="email@example.com"
-                onChange={() => setCustomError("")}
-                name="email"
-                required
+                {...register("email", {
+                  required: "Email is required",
+                  pattern: {
+                    value: /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/,
+                    message: "Enter a valid email",
+                  },
+                  onChange: () => setCustomError(""),
+                })}
+                aria-invalid={errors.email ? "true" : "false"}
               />
             </div>
-            <div className="validator-hint hidden">
-              Enter valid email address
-            </div>
+            {errors.email && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.email.message}
+              </p>
+            )}
           </div>
           {/* password */}
           <div>
@@ -136,12 +159,20 @@ export default function Signup() {
               <FaKey className="text-gray-500" size={18} />
               <input
                 type={`${showPassword ? "text" : "password"}`}
-                name="password"
                 placeholder="password"
-                required
-                minlength="6"
-                pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}"
-                title="Must be more than 6 characters, including number, lowercase letter, uppercase letter"
+                {...register("password", {
+                  required: "Password is required",
+                  minLength: {
+                    value: 6,
+                    message: "Password must be at least 6 characters",
+                  },
+                  pattern: {
+                    value: /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/,
+                    message:
+                      "Must include at least one number, lowercase and uppercase letter",
+                  },
+                })}
+                aria-invalid={errors.password ? "true" : "false"}
               />
               <div
                 type="button"
@@ -151,15 +182,15 @@ export default function Signup() {
                 {showPassword ? <FaEyeSlash size={20} /> : <FaEye size={20} />}
               </div>
             </div>
-            <div className="validator-hint hidden">
-              Must be more than 8 characters, including
-              <br />
-              At least one number <br />
-              At least one lowercase letter <br />
-              At least one uppercase letter
-            </div>
+            {errors.password && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.password.message}
+              </p>
+            )}
           </div>
-          <button className="btn btn-neutral mt-5">Sign up</button>
+          <button className="btn btn-neutral mt-5" disabled={isSubmitting}>
+            {isSubmitting ? "Signing up..." : "Sign up"}
+          </button>
 
           <div className="flex text-sm">
             Already have an account?{" "}

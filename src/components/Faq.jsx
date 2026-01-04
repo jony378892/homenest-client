@@ -38,8 +38,8 @@ export default function FAQ() {
     <section className="py-16 bg-gray-50" data-aos="fade-up">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-10">
-          <p className="text-lg font-semibold text-red-600 uppercase">Help</p>
-          <h2 className="text-3xl md:text-4xl font-bold text-base-400 mt-2">
+          <p className="text-lg font-semibold text-red-600 uppercase">FAQ</p>
+          <h2 className="text-3xl md:text-4xl font-bold text-base-300 mt-2">
             Frequently Asked Questions
           </h2>
         </div>

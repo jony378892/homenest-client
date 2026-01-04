@@ -3,6 +3,7 @@ import { FaEye, FaEyeSlash, FaKey, FaRegUser } from "react-icons/fa6";
 import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router";
 import { FcGoogle } from "react-icons/fc";
+import { useForm } from "react-hook-form";
 
 import useAuthContext from "../../hooks/useAuthContext";
 
@@ -13,41 +14,58 @@ export default function SignIn() {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm({
+    defaultValues: { email: "", password: "" },
+  });
+
   const handleShowPassword = () => {
     setShowPassword(!showPassword);
   };
 
-  const handleSignIn = (e) => {
-    e.preventDefault();
+  const handleSignIn = async (data) => {
+    setCustomError("");
+    try {
+      await signInUser(data.email, data.password);
+      // navigate to home after successful login
+      reset();
+      navigate(location.state || "/");
+    } catch (error) {
+      const errorMessage = error.message;
+      console.log(errorMessage);
+      if (errorMessage === "Firebase: Error (auth/invalid-credential).") {
+        setCustomError("Invalid Credentials");
+      } else {
+        setCustomError(errorMessage || "Sign-in failed.");
+      }
+    }
+  };
 
-    const email = e.target.email.value;
-    const password = e.target.password.value;
-
-    signInUser(email, password)
-      .then((result) => {
-        const currentUser = result.user;
-        // console.log(currentUser);
-
-        // navigate to home after successful login
-        navigate(location.state || "/");
-      })
-      .catch((error) => {
-        const errorMessage = error.message;
-        console.log(errorMessage);
-
-        if (errorMessage == "Firebase: Error (auth/invalid-credential).") {
-          setCustomError("Invalid Credentials");
-          console.log(errorMessage);
-        }
-      });
+  const handleCustomSignIn = async () => {
+    setCustomError("");
+    try {
+      await signInUser("jony@email.com", "Jo378892");
+      // navigate to home after successful login
+      reset();
+      navigate(location.state || "/");
+    } catch (error) {
+      const errorMessage = error.message;
+      console.log(errorMessage);
+      if (errorMessage === "Firebase: Error (auth/invalid-credential).") {
+        setCustomError("Invalid Credentials");
+      } else {
+        setCustomError(errorMessage || "Sign-in failed.");
+      }
+    }
   };
 
   const handleSignInWithGoogle = () => {
     signInWithGoogle()
-      .then((result) => {
-        const currentUser = result.user;
-        // console.log(currentUser);
-
+      .then(() => {
         // navigate to home after successful login
         navigate(location.state || "/");
       })
@@ -60,7 +78,10 @@ export default function SignIn() {
     <div className="py-14 flex flex-col gap-10 items-center">
       <h2 className="text-4xl font-bold">SignIn here</h2>
       <div className="p-5 py-10 border border-gray-300 rounded-2xl">
-        <form className=" flex flex-col gap-2" onSubmit={handleSignIn}>
+        <form
+          className=" flex flex-col gap-2"
+          onSubmit={handleSubmit(handleSignIn)}
+        >
           {customError && (
             <p className="text-red-600 flex gap-2 items-center">
               <MdErrorOutline size={18} />
@@ -75,13 +96,21 @@ export default function SignIn() {
               <input
                 type="email"
                 placeholder="email@example.com"
-                name="email"
-                required
+                {...register("email", {
+                  required: "Email is required",
+                  pattern: {
+                    value: /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/,
+                    message: "Enter a valid email",
+                  },
+                })}
+                aria-invalid={errors.email ? "true" : "false"}
               />
             </div>
-            <div className="validator-hint hidden">
-              Enter valid email address
-            </div>
+            {errors.email && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.email.message}
+              </p>
+            )}
           </div>
           {/* Password */}
           <div className="">
@@ -90,9 +119,15 @@ export default function SignIn() {
               <FaKey className="text-gray-500" size={18} />
               <input
                 type={`${showPassword ? "text" : "password"}`}
-                name="password"
                 placeholder="password"
-                required
+                {...register("password", {
+                  required: "Password is required",
+                  minLength: {
+                    value: 6,
+                    message: "Password must be at least 6 characters",
+                  },
+                })}
+                aria-invalid={errors.password ? "true" : "false"}
               />
               <div
                 type="button"
@@ -102,9 +137,11 @@ export default function SignIn() {
                 {showPassword ? <FaEyeSlash size={20} /> : <FaEye size={20} />}
               </div>
             </div>
-            <div className="validator-hint hidden">
-              Enter valid email address
-            </div>
+            {errors.password && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.password.message}
+              </p>
+            )}
           </div>
           <Link
             to="/auth/forget-password"
@@ -112,7 +149,18 @@ export default function SignIn() {
           >
             Forget password?
           </Link>
-          <button className="btn btn-neutral mt-5">SignIn</button>
+          <button className="btn btn-neutral mt-5" disabled={isSubmitting}>
+            {isSubmitting ? "Signing in..." : "SignIn"}
+          </button>
+
+          <button
+            className="btn btn-neutral mt-2"
+            type="button"
+            disabled={isSubmitting}
+            onClick={handleCustomSignIn}
+          >
+            {isSubmitting ? "Signing in..." : "Sign in with demo user"}
+          </button>
           <div className="flex text-sm">
             Don't have an account?{" "}
             <Link

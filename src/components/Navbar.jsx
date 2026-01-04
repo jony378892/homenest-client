@@ -10,9 +10,6 @@ export default function Navbar() {
   const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
   const { user, setUser, logoutUser } = useAuthContext();
 
-  const hoverClass =
-    "relative after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-[2px] after:bg-red-600 after:transition-all after:duration-300 hover:after:w-full";
-
   const handleLogout = () => {
     logoutUser()
       .then(() => setUser(null))
@@ -35,10 +32,20 @@ export default function Navbar() {
       <li>
         <NavLink to="/properties">Properties</NavLink>
       </li>
-      {user && (
-        <li>
-          <NavLink to="/add-property">Add Property</NavLink>
-        </li>
+      {user ? (
+        <>
+          <li>
+            <NavLink to="/add-property">Add Property</NavLink>
+          </li>
+          <li>
+            <NavLink to="/dashboard">Dashboard</NavLink>
+          </li>
+        </>
+      ) : (
+        <>
+          <NavLink to="/about">About</NavLink>
+          <NavLink to="/contact">Contact</NavLink>
+        </>
       )}
     </>
   );
