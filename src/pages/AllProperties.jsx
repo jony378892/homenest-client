@@ -131,26 +131,26 @@ export default function AllProperties() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:bg-gradient-to-br dark:from-gray-900 dark:to-gray-800 py-8 md:py-12">
+    <div className="min-h-screen py-8 md:py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-8 md:mb-12">
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-gray-100 mb-3">
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-3">
             Explore Your Perfect Property
           </h1>
-          <p className="text-gray-600 dark:text-gray-400 text-sm md:text-base max-w-2xl mx-auto">
+          <p className="text-sm md:text-base max-w-2xl mx-auto">
             Discover amazing properties that match your needs. Filter, search,
             and find your dream home today.
           </p>
         </div>
 
         <div
-          className={`bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 md:p-6 mb-8 border border-gray-200 dark:border-gray-700 transition-all duration-300`}
+          className={`rounded-xl shadow-lg p-4 md:p-6 mb-8 border border-gray-200 transition-all duration-300`}
         >
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
             {/* Search */}
             <div className="space-y-2">
-              <label className="flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-300">
+              <label className="flex items-center gap-2 text-sm font-semibold">
                 <FaSearch className="text-red-600" />
                 Search Property
               </label>
@@ -158,7 +158,7 @@ export default function AllProperties() {
                 <input
                   type="text"
                   placeholder="Search by name or location..."
-                  className="w-full  text-sm pl-10 pr-4 py-2 border-2 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2  focus:border-transparent transition-all duration-200 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
+                  className="w-full  text-sm pl-10 pr-4 py-2 border-2 border-gray-300 rounded-lg focus:ring-2  focus:border-transparent transition-all duration-200"
                   value={searchText}
                   onChange={(e) => setSearchText(e.target.value)}
                 />
@@ -167,14 +167,14 @@ export default function AllProperties() {
             </div>
 
             <div className="space-y-2">
-              <label className="flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-300">
+              <label className="flex items-center gap-2 text-sm font-semibold">
                 <FaFilter className="text-red-600" />
                 Filter by Category
               </label>
               <select
                 value={filterValue}
                 onChange={(e) => setFilterValue(e.target.value)}
-                className="w-full text-sm px-4 py-2 border-2 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2  focus:border-transparent transition-all duration-200 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 cursor-pointer"
+                className="w-full text-sm px-4 py-2 border-2 border-gray-300 rounded-lg focus:ring-2  focus:border-transparent transition-all duration-200 cursor-pointer"
               >
                 {categories.map((category) => (
                   <option key={category} value={category}>
@@ -188,14 +188,14 @@ export default function AllProperties() {
 
             {/* Sort */}
             <div className="space-y-2">
-              <label className="flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-300">
+              <label className="flex items-center gap-2 text-sm font-semibold">
                 <FaSortAmountDown className="text-red-600" />
                 Sort By
               </label>
               <select
                 value={sortOption}
                 onChange={(e) => setSortOption(e.target.value)}
-                className="w-full text-sm px-4 py-2 border-2 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2  focus:border-transparent transition-all duration-200 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 cursor-pointer"
+                className="w-full text-sm px-4 py-2 border-2 rounded-lg focus:ring-2  focus:border-transparent transition-all duration-200 cursor-pointer"
                 aria-label="Sort properties"
               >
                 <option value="newest">Newest First</option>
@@ -227,11 +227,11 @@ export default function AllProperties() {
                   </span>
                 )}
                 {filterValue !== "all" && (
-                  <span className="inline-flex items-center gap-1 px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-full text-sm">
+                  <span className="inline-flex items-center gap-1 px-3 py-1 bg-blue-100 text-blue-700  rounded-full text-sm">
                     Category: {filterValue}
                     <button
                       onClick={() => setFilterValue("all")}
-                      className="ml-1 hover:text-blue-900 dark:hover:text-blue-100"
+                      className="ml-1 hover:text-blue-900"
                     >
                       ×
                     </button>
@@ -242,7 +242,7 @@ export default function AllProperties() {
                     setSearchText("");
                     setFilterValue("all");
                   }}
-                  className="text-sm text-gray-600 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400 font-medium"
+                  className="text-sm  hover:text-red-600 dark:hover:text-red-400 font-medium"
                 >
                   Clear All
                 </button>
@@ -258,10 +258,10 @@ export default function AllProperties() {
         {!isLoading && (
           <>
             {paginated.length === 0 ? (
-              <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-12 text-center border border-gray-200 dark:border-gray-700">
+              <div className="rounded-xl shadow-lg p-12 text-center border">
                 <div className="max-w-md mx-auto">
                   <svg
-                    className="w-24 h-24 mx-auto text-gray-400 dark:text-gray-600 mb-4"
+                    className="w-24 h-24 mx-auto mb-4"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -273,10 +273,10 @@ export default function AllProperties() {
                       d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                     />
                   </svg>
-                  <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2">
+                  <h3 className="text-xl font-bold mb-2">
                     No Properties Found
                   </h3>
-                  <p className="text-gray-600 dark:text-gray-400 mb-6">
+                  <p className=" mb-6">
                     We couldn't find any properties matching your criteria. Try
                     adjusting your filters or search terms.
                   </p>
@@ -305,7 +305,7 @@ export default function AllProperties() {
                     // Grid View
                     <div
                       key={property._id}
-                      className="bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-200 dark:border-gray-700 group transform hover:-translate-y-1"
+                      className="rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border group transform hover:-translate-y-1"
                     >
                       <figure className="relative h-56 overflow-hidden">
                         <img
@@ -320,18 +320,18 @@ export default function AllProperties() {
                       </figure>
 
                       <div className="p-5">
-                        <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2 line-clamp-1 group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors">
+                        <h3 className="text-xl font-bold mb-2 line-clamp-1 group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors">
                           {property.propertyName}
                         </h3>
 
-                        <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 mb-3">
+                        <div className="flex items-center gap-2 text-sm  mb-3">
                           <CiLocationOn className="text-red-500 text-xl flex-shrink-0" />
                           <span className="line-clamp-1">
                             {property.location}
                           </span>
                         </div>
 
-                        <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed mb-4 line-clamp-2">
+                        <p className="text-sm  leading-relaxed mb-4 line-clamp-2">
                           {property.shortDescription}
                         </p>
 
@@ -357,7 +357,7 @@ export default function AllProperties() {
                     // List View
                     <div
                       key={property._id}
-                      className="bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-200 dark:border-gray-700 group"
+                      className="rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-200 group"
                     >
                       <div className="flex flex-col sm:flex-row">
                         <figure className="relative w-full sm:w-64 h-48 sm:h-auto overflow-hidden flex-shrink-0">
@@ -366,39 +366,37 @@ export default function AllProperties() {
                             alt={property.propertyName}
                             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                           />
-                          <div className="absolute top-4 left-4 bg-red-500 text-white text-xs font-bold px-3 py-1.5 rounded-lg shadow-lg uppercase tracking-wide">
+                          <div className="absolute top-4 left-4 bg-red-500 text-xs font-bold px-3 py-1.5 rounded-lg shadow-lg uppercase tracking-wide">
                             {property.category}
                           </div>
                         </figure>
 
                         <div className="flex-1 p-6 flex flex-col justify-between">
                           <div>
-                            <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2 group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors">
+                            <h3 className="text-2xl font-bold mb-2">
                               {property.propertyName}
                             </h3>
 
-                            <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 mb-3">
+                            <div className="flex items-center gap-2 text-sm  mb-3">
                               <CiLocationOn className="text-red-500 text-xl" />
                               <span>{property.location}</span>
                             </div>
 
-                            <p className="text-gray-600 dark:text-gray-400 leading-relaxed mb-4">
+                            <p className=" leading-relaxed mb-4">
                               {property.shortDescription}
                             </p>
                           </div>
 
-                          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+                          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-4 border-t">
                             <div>
-                              <p className="text-xs text-gray-500 dark:text-gray-400 mb-0.5">
-                                Price
-                              </p>
-                              <p className="text-3xl font-bold text-gray-900 dark:text-gray-100">
+                              <p className="text-xs mb-0.5">Price</p>
+                              <p className="text-3xl font-bold">
                                 ${property.propertyPrice?.toLocaleString()}
                               </p>
                             </div>
                             <Link
                               to={`/property-details/${property._id}`}
-                              className="px-6 py-2.5 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-semibold rounded-lg shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200"
+                              className="px-6 py-2.5 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 font-semibold rounded-lg shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200"
                             >
                               View Details
                             </Link>
@@ -415,25 +413,23 @@ export default function AllProperties() {
 
         {/* Pagination */}
         {totalPages > 1 && !isLoading && paginated.length > 0 && (
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 md:p-6 border border-gray-200 dark:border-gray-700">
+          <div className="rounded-xl shadow-lg p-4 md:p-6 border">
             <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
               {/* Results Info */}
-              <div className="text-sm text-gray-600 dark:text-gray-400">
+              <div className="text-sm ">
                 Showing{" "}
-                <span className="font-semibold text-gray-900 dark:text-gray-100">
+                <span className="font-semibold">
                   {(currentPage - 1) * itemsPerPage + 1}
                 </span>{" "}
                 -{" "}
-                <span className="font-semibold text-gray-900 dark:text-gray-100">
+                <span className="font-semibold">
                   {Math.min(
                     currentPage * itemsPerPage,
                     sortedProperties.length
                   )}
                 </span>{" "}
                 of{" "}
-                <span className="font-semibold text-gray-900 dark:text-gray-100">
-                  {sortedProperties.length}
-                </span>{" "}
+                <span className="font-semibold">{sortedProperties.length}</span>{" "}
                 properties
               </div>
 
@@ -478,7 +474,7 @@ export default function AllProperties() {
                 </div>
 
                 {/* Mobile Page Indicator */}
-                <div className="md:hidden px-4 py-2 bg-gray-100 dark:bg-gray-700 rounded-lg text-sm font-semibold text-gray-900 dark:text-gray-100">
+                <div className="md:hidden px-4 py-2  rounded-lg text-sm font-semibold">
                   {currentPage} / {totalPages}
                 </div>
 

@@ -35,7 +35,7 @@ export default function Featured() {
           {featuredProperties.map((property) => (
             <div
               key={property._id}
-              className="card bg-white shadow-md hover:shadow-lg transition-all rounded-xl overflow-hidden"
+              className="card border border-white shadow-md hover:shadow-lg transition-all rounded-xl overflow-hidden"
             >
               <figure className="relative group">
                 <img
@@ -53,17 +53,17 @@ export default function Featured() {
                   {property.propertyName}
                 </h3>
 
-                <div className="flex items-center gap-1 text-sm text-gray-600 dark:text-gray-300">
+                <div className="flex items-center gap-1 text-sm ">
                   <CiLocationOn className="text-red-500 text-lg" />
                   <span>{property.location}</span>
                 </div>
 
-                <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed mt-2">
+                <p className="text-sm leading-relaxed mt-2">
                   {property.shortDescription}
                 </p>
 
-                <div className="card-actions justify-between items-center border-t border-gray-200 dark:border-gray-700 pt-4 mt-3">
-                  <div className="text-xl font-bold text-gray-900 dark:text-gray-100">
+                <div className="card-actions justify-between items-center border-t border-gray-200 pt-4 mt-3">
+                  <div className="text-xl font-bold">
                     ${property.propertyPrice}
                   </div>
                   <Link

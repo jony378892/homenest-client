@@ -35,11 +35,11 @@ const faqs = [
 
 export default function FAQ() {
   return (
-    <section className="py-16 bg-gray-50" data-aos="fade-up">
+    <section className="py-16 bg-base-50" data-aos="fade-up">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-10">
           <p className="text-lg font-semibold text-red-600 uppercase">FAQ</p>
-          <h2 className="text-3xl md:text-4xl font-bold text-base-300 mt-2">
+          <h2 className="text-3xl md:text-4xl font-bold text-base-400 mt-2">
             Frequently Asked Questions
           </h2>
         </div>
@@ -48,7 +48,7 @@ export default function FAQ() {
           {faqs.map((faq) => (
             <div
               key={faq.id}
-              className="collapse collapse-arrow border border-base-300 bg-white rounded-box"
+              className="collapse collapse-arrow border border-base-300 rounded-box"
             >
               <input
                 type="radio"

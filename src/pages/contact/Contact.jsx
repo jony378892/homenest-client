@@ -18,7 +18,7 @@ export default function Contact() {
   };
 
   return (
-    <section className="py-16 bg-base-200 dark:bg-base-300">
+    <section className="py-16 bg-base-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-10">
           <p className="text-lg font-semibold text-red-600 uppercase">
@@ -37,11 +37,11 @@ export default function Contact() {
           {/* Form */}
           <form
             onSubmit={handleSubmit(onSubmit)}
-            className="lg:col-span-2 bg-white dark:bg-neutral p-6 rounded-2xl shadow-sm"
+            className="lg:col-span-2 p-6 rounded-2xl  "
             noValidate
           >
             {isSubmitSuccessful && (
-              <div className="mb-4 alert alert-success shadow-sm">
+              <div className="mb-4 alert alert-success">
                 <div>
                   <span>
                     Message sent successfully. We'll contact you soon.

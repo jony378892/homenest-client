@@ -38,7 +38,7 @@ const posts = [
 
 export default function BlogSection() {
   return (
-    <section className="py-16 bg-base-200 dark:bg-base-300" data-aos="fade-up">
+    <section className="py-16 bg-base-200 border" data-aos="fade-up">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-10">
           <p className="text-lg font-semibold text-red-600 uppercase">Blog</p>
@@ -51,7 +51,7 @@ export default function BlogSection() {
           {posts.map((post) => (
             <article
               key={post.id}
-              className="bg-white dark:bg-neutral rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300 flex flex-col h-full"
+              className="rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300 flex flex-col h-full border"
             >
               <div className="relative h-44 w-full">
                 <img
@@ -65,10 +65,8 @@ export default function BlogSection() {
               </div>
 
               <div className="p-5 flex-1 flex flex-col justify-between">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
-                  {post.title}
-                </h3>
-                <p className="mt-2 text-gray-600 dark:text-gray-300 text-sm leading-relaxed line-clamp-3">
+                <h3 className="text-lg font-semibold">{post.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed line-clamp-3">
                   {post.excerpt}
                 </p>
 
