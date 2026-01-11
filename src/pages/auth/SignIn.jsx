@@ -48,7 +48,7 @@ export default function SignIn() {
   const handleCustomSignIn = async () => {
     setCustomError("");
     try {
-      await signInUser("jony@email.com", "Jo378892");
+      await signInUser("rony@email.com", "Ro378892");
       // navigate to home after successful login
       reset();
       navigate(location.state || "/");
